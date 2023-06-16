@@ -2,11 +2,12 @@ const TelegramBot = require('node-telegram-bot-api');
 const config = require('../../../config');
 const { messages } = require('./messages');
 const { CHAT_TYPE } = require('./constants');
-const { isRemovedFromGroupEvent, isCommandEvent, isRegisteredChat } = require('./helpers');
+const { isRemovedFromGroupEvent, isCommandEvent, isRegisteredChat, isAILoading } = require('./helpers');
 const { ChatRepository } = require('../../../database/repositories/chat');
+const { GPTClient } = require('../../LLM/chatGPT');
 const token = config.TELEGRAM_KEY;
 const bot = new TelegramBot(token, {polling:true});
-const context = []
+const clientAI = new GPTClient()
 
 bot.on('polling_error', (error) => {
     console.log(error);
@@ -21,6 +22,7 @@ bot.onText(/^\/start/, async (msg) => {
 
 bot.onText(/^\/login/, async (msg) => {
     const chatId = msg.chat.id;
+    const username = msg.from.username
     const words = msg.text.split(" ")
     if(words.length <= 1){
         await bot.sendMessage(chatId, messages.loginErrorNoCode)
@@ -30,7 +32,7 @@ bot.onText(/^\/login/, async (msg) => {
         await bot.sendMessage(chatId, messages.loginErrorWrongCode)
         return
     }
-    const chat = await ChatRepository.registerChat(chatId)
+    const chat = await ChatRepository.registerChat(chatId, username)
     if(chat){
         await bot.sendMessage(chatId, messages.loginSuccess)
     }
@@ -46,6 +48,8 @@ bot.on('message', async (msg) => {
         return
     }
     if(!(await isRegisteredChat(chatId))) return
-    bot.sendMessage(chatId, 'Received your message');
-    console.log(msg)
+    if(isAILoading(clientAI)) return
+    const message = msg.text
+    const response = await clientAI.sendMessage(chatId, message)
+    await bot.sendMessage(chatId, response)
   });

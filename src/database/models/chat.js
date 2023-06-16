@@ -1,7 +1,11 @@
 const {Schema, model} = require('mongoose')
 
 const ChatSchema = new Schema({
-      chatId: {
+      _id: {
+        type: String,
+        required: true
+      },
+      username: {
         type: String,
         required: true
       }
@@ -10,4 +14,4 @@ const ChatSchema = new Schema({
     timestamps: true
 })
 
-module.exports = model('Session', ChatSchema)
+module.exports = model('Chat', ChatSchema)

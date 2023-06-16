@@ -2,8 +2,8 @@ const {Schema, model} = require('mongoose')
 
 const ChatContextSchema = new Schema({
     chat: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+        type: String,
+        ref: 'Chat'
     },
     role: {
         type: String,
@@ -21,4 +21,4 @@ const ChatContextSchema = new Schema({
     timestamps: true
 })
 
-module.exports = model('Session', ChatContextSchema)
+module.exports = model('ChatContext', ChatContextSchema)
