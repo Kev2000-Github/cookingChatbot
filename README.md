@@ -1,7 +1,7 @@
 # VenGourmet 🍽️
 
-VenGourmet es un encantador chatbot de Telegram que crea recetas personalizadas basadas en los ingredientes que tienes en casa. ¡Di adiós a los dilemas en la cocina y deja que VenGourmet lleve la emoción culinaria a tu alcance! 
-(っ˘ڡ˘ς)
+VenGourmet es un encantador chatbot de Telegram que crea recetas personalizadas basadas en los ingredientes que tienes en casa. 
+¡Di adiós a los dilemas en la cocina y deja que VenGourmet lleve la emoción culinaria a tu alcance! (っ˘ڡ˘ς)
 
 ## Tecnologías Utilizadas
 
