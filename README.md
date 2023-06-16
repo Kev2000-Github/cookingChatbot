@@ -1,5 +1,3 @@
-Claro, aquí tienes una plantilla creativa de README.md para tu proyecto VenGourmet en GitHub:
-
 # VenGourmet 🍽️
 
 VenGourmet es un encantador chatbot de Telegram que crea recetas personalizadas basadas en los ingredientes que tienes en casa. ¡Di adiós a los dilemas en la cocina y deja que VenGourmet lleve la emoción culinaria a tu alcance! (っ˘ڡ˘ς)
@@ -34,3 +32,4 @@ Asegúrate de configurar las siguientes variables de entorno:
 
 ¡Feliz codificación! 🚀👨‍🍳
 Autor: Kevin Cheng
+>> Curiosidad, ¡este readme fue hecho con ChatGPT! muestra el potencial que traen las LLM
