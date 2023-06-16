@@ -32,4 +32,4 @@ Asegúrate de configurar las siguientes variables de entorno:
 
 ¡Feliz codificación! 🚀👨‍🍳
 Autor: Kevin Cheng
->> Curiosidad, ¡este readme fue hecho con ChatGPT! muestra el potencial que traen las LLM
+> Curiosidad, ¡este readme fue hecho con ChatGPT! muestra el potencial que traen las LLM
