@@ -29,7 +29,7 @@ class GPTClient {
     const completion = await this.client.createChatCompletion({
         model,
         messages: history,
-        temperature: 0
+        temperature: 0.3
       });
       return completion.data.choices[0].message['content']    
     }
@@ -50,9 +50,10 @@ class GPTClient {
     }
 
     async processEndingResponse(chatId, response) {
-        const filteredResponse = response.split("<close>")[0]
+        const filteredResponse = response.split("<close>")
+        if(filteredResponse.length <= 1) return response
         await ChatContextRepository.deleteChatContext(chatId)
-        return filteredResponse
+        return filteredResponse[0]
     }
 }
 
