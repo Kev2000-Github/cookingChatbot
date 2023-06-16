@@ -48,7 +48,10 @@ bot.on('message', async (msg) => {
         return
     }
     if(!(await isRegisteredChat(chatId))) return
-    if(isAILoading(clientAI)) return
+    if(isAILoading(clientAI)){
+        await bot.sendMessage(chatId, messages.loadingMessage)
+        return
+    }
     const message = msg.text
     const response = await clientAI.sendMessage(chatId, message)
     await bot.sendMessage(chatId, response)

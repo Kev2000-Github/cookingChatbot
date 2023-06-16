@@ -25,7 +25,7 @@ class GPTClient {
     async getCompletionsFromMessages(messages, model) {
     const context = {role: ROLES.SYSTEM, content: systemContext}
     const history = [context, ...messages]
-    
+
     const completion = await this.client.createChatCompletion({
         model,
         messages: history,
@@ -36,14 +36,23 @@ class GPTClient {
 
     async sendMessage(chatId, message, model = "gpt-3.5-turbo") {
         this.state = STATES.LOADING
+
         const chatContext = await ChatContextRepository.getChatContext(chatId)
         const newMessage = {role: ROLES.USER, content: message}
         const messages = [...chatContext, newMessage] ?? [newMessage]
         await ChatContextRepository.addMessageToContext(chatId, ROLES.USER, message)
         const response = await this.getCompletionsFromMessages(messages, model)
         await ChatContextRepository.addMessageToContext(chatId, ROLES.ASSISTANT, response)
+        const filteredEndingResponse = await this.processEndingResponse(chatId, response)
+
         this.state = STATES.READY
-        return response
+        return filteredEndingResponse
+    }
+
+    async processEndingResponse(chatId, response) {
+        const filteredResponse = response.split("<close>")[0]
+        await ChatContextRepository.deleteChatContext(chatId)
+        return filteredResponse
     }
 }
 
