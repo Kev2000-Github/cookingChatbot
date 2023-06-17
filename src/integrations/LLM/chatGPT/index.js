@@ -4,11 +4,6 @@ const { Configuration, OpenAIApi } = require("openai");
 const config = require("../../../config");
 const { context: systemContext } = require('../context')
 
-function sleep(ms) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
-  }
 class GPTClient {
     constructor() {
         const configuration = new Configuration({

@@ -28,6 +28,6 @@ Ahora eres parte de los usuarios exclusivos que pueden gozar de mis habilidades 
     `,
     loadingMessage:
     `
-Por favor espere, estoy pensando en la receta... ♒((⇀‸↼))♒
+Por favor espere, estoy pensando en la receta... ((⇀‸↼))
     `
 }
