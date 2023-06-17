@@ -31,17 +31,23 @@ class GPTClient {
 
     async sendMessage(chatId, message, model = "gpt-3.5-turbo") {
         this.state = STATES.LOADING
-
-        const chatContext = await ChatContextRepository.getChatContext(chatId)
-        const newMessage = {role: ROLES.USER, content: message}
-        const messages = [...chatContext, newMessage] ?? [newMessage]
-        await ChatContextRepository.addMessageToContext(chatId, ROLES.USER, message)
-        const response = await this.getCompletionsFromMessages(messages, model)
-        await ChatContextRepository.addMessageToContext(chatId, ROLES.ASSISTANT, response)
-        const filteredEndingResponse = await this.processEndingResponse(chatId, response)
-
-        this.state = STATES.READY
-        return filteredEndingResponse
+        try{
+            const chatContext = await ChatContextRepository.getChatContext(chatId)
+            const newMessage = {role: ROLES.USER, content: message}
+            const messages = [...chatContext, newMessage] ?? [newMessage]
+            await ChatContextRepository.addMessageToContext(chatId, ROLES.USER, message)
+            const response = await this.getCompletionsFromMessages(messages, model)
+            await ChatContextRepository.addMessageToContext(chatId, ROLES.ASSISTANT, response)
+            const filteredEndingResponse = await this.processEndingResponse(chatId, response)
+    
+            this.state = STATES.READY
+            return filteredEndingResponse    
+        }
+        catch(error){
+            console.error(error.response.status, error.response.data)
+            this.state = STATES.READY
+            return "ERROR with OpenAI request..."
+        }
     }
 
     async processEndingResponse(chatId, response) {
