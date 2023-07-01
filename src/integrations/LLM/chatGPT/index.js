@@ -35,8 +35,8 @@ class GPTClient {
             const chatContext = await ChatContextRepository.getChatContext(chatId)
             const newMessage = {role: ROLES.USER, content: message}
             const messages = [...chatContext, newMessage] ?? [newMessage]
-            await ChatContextRepository.addMessageToContext(chatId, ROLES.USER, message)
             const response = await this.getCompletionsFromMessages(messages, model)
+            await ChatContextRepository.addMessageToContext(chatId, ROLES.USER, message)
             await ChatContextRepository.addMessageToContext(chatId, ROLES.ASSISTANT, response)
             const filteredEndingResponse = await this.processEndingResponse(chatId, response)
     
@@ -46,7 +46,7 @@ class GPTClient {
         catch(error){
             console.error(error.response.status, error.response.data)
             this.state = STATES.READY
-            if(error?.type == "insufficient_quota"){
+            if(error.response?.data?.error?.type == "insufficient_quota"){
                 return "La API Key de OpenAI ha expirado...";
             }
             return "ERROR with OpenAI request..."
