@@ -46,6 +46,9 @@ class GPTClient {
         catch(error){
             console.error(error.response.status, error.response.data)
             this.state = STATES.READY
+            if(error?.type == "insufficient_quota"){
+                return "La API Key de OpenAI ha expirado...";
+            }
             return "ERROR with OpenAI request..."
         }
     }
